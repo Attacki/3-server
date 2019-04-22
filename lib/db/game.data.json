@@ -1,0 +1,10 @@
+{
+  "UserList": [{ "FirstSocketId": "后面每次链接用的scoket：id" }],
+  "Confrontation": [
+    {
+      "PlayerList": [],
+      "Winner": "userId",
+      "Game_Detail": [{ "cards": [], "ower": "userId" }]
+    }
+  ]
+}

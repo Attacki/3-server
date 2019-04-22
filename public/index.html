@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <div id="app">
+        <header class="panel">
+            <ul class="more">
+                <li>2</li>
+                <li>1</li>
+                <li>dawang</li>
+            </ul>
+        </header>
+        <section id="desktop">
+            <article class="player1">
+                1
+            </article>
+            <article class="desk">
+                2
+            </article>
+            <article class="player2">
+                3
+            </article>
+        </section>
+        <footer id="me">
+            <ul v-cloak class="buttons">
+                <li class="inTurn" v-if = "turn == 1">
+                    <span>confirm</span>
+                    <span>pass</span>
+                    <span>tips</span>
+                </li>
+                <li class="time-left" v-else>
+                    <span>30秒</span>
+                </li>
+            </ul>
+            <ul class="cards">
+                <li class="card"><font>1</font></li>
+                <li class="card"><font>1</font></li>
+                <li class="card"><font>2</font></li>
+                <li class="card"><font>K</font></li>
+                <li class="card"><font>4</font></li>
+            </ul>
+        </footer>
+    </div>
+
+
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/index.js"></script>
+</body>
+</html>

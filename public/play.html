@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>斗地主</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <div id="app" @mousedown="start" @mousemove="move" @mouseup="end">
+        <header class="panel">
+            <ul class="more">
+                <li class="card" style="margin:0 10px;" v-for="card in gameCenter.endCards">
+                    <img draggable="false" style="width:63px;height:93px;" :src="'assets/images/'+card.val+card.type+'.png'"></img>
+                </li>
+            </ul>
+        </header>
+        <section id="desktop">
+            <article class="player1">
+                <div class="guest" v-cloak>
+                    <ul class="guest-cards">
+                        <li class="card" v-for = "item in gameCenter.last.card_left"><span></span></li>
+                    </ul>
+                    <ul class="timer">
+                        <h1>${who(gameCenter.last.turn)}</h1>
+                        <h2>[${gameCenter.last.card_left}张]</h2>
+                        <li class="time-left" v-show="timer._turn == gameCenter.last.turn ">
+                            ${timer._left}
+                        </li>
+                    </ul>
+                </div>
+            </article>
+            <article class="temporary last">
+                <div class="curr_card mine_curr" >
+                    <template v-for="card in history.cards[gameCenter.last.turn] ">
+                        <span style="display: inline-block" class="card" :key="card.val + card.type">
+                            <img draggable="false" style="width: 68px; height: 103px;" :src="'assets/images/'+card.val+card.type+'.png'"></img>
+                        </span>
+                    </template>
+                    <span class="pass" v-show="history.cards[gameCenter.last.turn].length == 0 && timer._turn != gameCenter.last.turn && history.pass[gameCenter.last.turn]">Pass</span>
+                </div>
+            </article>
+            <article class="temporary next">
+                <div class="curr_card mine_curr" >
+                    <template v-for="card in history.cards[gameCenter.next.turn] ">
+                        <span style="display: inline-block" class="card" :key="card.val + card.type">
+                            <img draggable="false" style="width: 68px; height: 103px;" :src="'assets/images/'+card.val+card.type+'.png'"></img>
+                        </span>
+                    </template>
+                    <span class="pass" v-show="history.cards[gameCenter.next.turn].length == 0 && timer._turn != gameCenter.next.turn && history.pass[gameCenter.next.turn]">Pass</span>
+                </div>
+            </article>
+            <article class="player2">
+                <div class="guest" v-cloak>
+                    <ul class="timer">
+                        <h1>${who(gameCenter.next.turn)}</h1>
+                        <h2>[${gameCenter.next.card_left}张]</h2>
+                        <li class="time-left" v-show="timer._turn == gameCenter.next.turn ">
+                            ${timer._left}
+                        </li>
+                    </ul>
+                    <ul class="guest-cards">
+                        <li class="card" v-for = "item in gameCenter.next.card_left"><span></span></li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+        <footer id="me">
+            <ul v-cloak class="tools">
+                <li class="time-left" v-show="timer._turn == gameCenter.mine.turn  ">
+                    ${timer._left}
+                </li>
+                <li class="btns" v-show="timer._turn == gameCenter.mine.turn">
+                    <div v-if ="gameCenter.last.card_left != 0 || gameCenter.next.card_left != 0 || gameCenter.mine.cards.length != 0">
+                        <span @click.stop="reSelect">重选</span>
+                        <span @click.stop="pass" v-show="timer._turn == gameCenter.mine.turn  &&  gameCenter.curr.turn != gameCenter.mine.turn">不要</span>
+                        <span @click.stop="confirm">出牌</span>
+                        <!-- <span @click.stop="tips">tips</span> -->
+                    </div>
+                </li>
+                <li class="curr_card mine_curr" v-show="timer._turn != gameCenter.mine.turn">
+                    <template v-for="card in history.cards[gameCenter.mine.turn] ">
+                        <span style="display: inline-block" class="card" :key="card.val + card.type">
+                            <img draggable="false" style="width: 68px; height: 103px;" :src="'assets/images/'+card.val+card.type+'.png'"></img>
+                        </span>
+                    </template>
+                    <span class="pass" v-show="history.cards[gameCenter.mine.turn].length == 0 && history.pass[gameCenter.mine.turn]">Pass</span>
+                </li>
+            </ul>
+            <ul class="cards">
+                <template v-for="card in gameCenter.mine.cards">
+                    <Card :card="card" ></Card>
+                </template>
+            </ul>
+            <h1>${ who(gameCenter.mine.turn)}</h1>
+            <h2>[${gameCenter.mine.cards.length}张]</h2>
+            <!-- <div class="btns" v-if ="gameCenter.last.card_left == 0 || gameCenter.next.card_left == 0 || gameCenter.mine.cards.length == 0">
+                <span @click.stop="restart">重开</span>
+            </div> -->
+            <div class="win_fail">
+                <img src="/assets/images/victory.png" width="350" v-if="win" alt="">
+                <img src="/assets/images/defeated.png" width="240" v-else alt="">
+                <div class="reset" @click.stop="restart">重开</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- <audio src="/assets/bgm.ogg" autoplay loop></audio> -->
+    <span id="tips"></span>
+    <script src='/socket.io/socket.io.js' type='text/javascript'></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/js/client.js"></script>
+</body>
+</html>

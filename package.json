@@ -1,0 +1,18 @@
+{
+  "name": "3_server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts":{
+    "start":"node ./server.js"
+  },
+  "dependencies": {
+    "base64id": "^1.0.0",
+    "mime-lookup": "^0.0.2",
+    "nodemon": "^1.18.10",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "mime": "^2.4.2"
+  }
+}
